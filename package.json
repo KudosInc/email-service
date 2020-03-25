@@ -1,0 +1,27 @@
+{
+  "name": "@kudosinc/email-service",
+  "version": "1.0.0",
+  "description": "Email service for node clients",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KudosInc/email-service.git"
+  },
+  "keywords": [
+    "sendgrid",
+    "mailcatcher",
+    "email"
+  ],
+  "author": "talal7860",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KudosInc/email-service/issues"
+  },
+  "homepage": "https://github.com/KudosInc/email-service#readme",
+  "dependencies": {
+    "nodemailer": "^6.4.6"
+  }
+}
