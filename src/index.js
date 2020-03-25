@@ -34,9 +34,11 @@ const postToSengrid = ({
   });
 };
 
-const userEmailFormat = (user) => `"${user.name}" <${user.email}>`;
+const address = (user) => `"${user.name}" <${user.email}>`;
 
-const postToMailCatcher = ({ from, to, subject, params }) => {
+const postToMailCatcher = ({
+  from, to, subject, params, html,
+}) => {
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
@@ -44,21 +46,21 @@ const postToMailCatcher = ({ from, to, subject, params }) => {
     auth: {
       user: process.env.SMTP_USER_NAME,
       pass: process.env.SMTP_PASSWORD,
-    }
+    },
   });
-  const html = `
-    This is an email without the actual template, actual email will be sent with these parameters:
+  const paramsHtml = `
+    This is an email without the actual template, actual email will be sent with these parameters: <br />
     ${Object.keys(params).map((key) => `<b>${key}</b>: ${params[key]}`).join('<br />')}
   `;
   transporter.sendMail({
-    from: userEmailFormat(from),
-    to: to.map(userEmailFormat),
+    from: address(from),
+    to: to.map(address),
     subject,
-    html,
+    html: html || paramsHtml,
   });
 };
 /**
- * 
+ * Send Mail
  * @param {Object} args
  * From: {
  *   email: String, name: String
@@ -70,7 +72,7 @@ const postToMailCatcher = ({ from, to, subject, params }) => {
  * subject: String
  */
 const sendMail = (args) => {
-  switch(process.env.EMAIL_CLIENT) {
+  switch (process.env.EMAIL_CLIENT) {
     case SUPPORTED_EMAIL_CLIENTS.sendgrid:
       return postToSengrid(args);
     case SUPPORTED_EMAIL_CLIENTS.mailcatcher:
@@ -78,7 +80,7 @@ const sendMail = (args) => {
     default:
       throw new Error(`Unsupported email client: ${process.env.EMAIL_CLIENT}`);
   }
-}
+};
 
 module.exports = {
   sendMail,

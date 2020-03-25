@@ -1,0 +1,17 @@
+{
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "16.12.0"
+    }
+  },
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "extends": "airbnb",
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "module"
+  }
+}
