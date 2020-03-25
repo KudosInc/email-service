@@ -1,12 +1,10 @@
 const request = require('./request');
 
-const SENDGRID_API_URL = '';
+const SENDGRID_API_URL = 'https://api.sendgrid.com/v3/mail/send';
 
 const SUPPORTED_EMAIL_CLIENTS = {
-  sendgrid: {
-    url: 'https://api.sendgrid.com/v3/mail/send',
-  },
-  mailcatcher: 1,
+  sendgrid: 'sendgrid',
+  mailcatcher: 'mailcatcher',
 };
 
 const postToSengrid = ({
@@ -26,7 +24,7 @@ const postToSengrid = ({
     template_id: templateId,
   };
   return request.post({
-    uri: SUPPORTED_EMAIL_CLIENTS.sendgrid.url,
+    uri: SENDGRID_API_URL,
     headers: {
       'content-type': 'application/json',
       authorization: `Bearer ${process.env.SENDGRID_API_KEY}`,
@@ -77,7 +75,7 @@ const sendMail = (args) => {
     case SUPPORTED_EMAIL_CLIENTS.mailcatcher:
       return postToMailCatcher(args);
     default:
-      throw new Error('Unsupported email client');
+      throw new Error(`Unsupported email client: ${process.env.EMAIL_CLIENT}`);
   }
 }
 
