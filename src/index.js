@@ -70,7 +70,7 @@ const postToMailCatcher = ({ from, to, subject, params }) => {
  * params: [key: value]
  * subject: String
  */
-const send = (args) => {
+const sendMail = (args) => {
   switch(process.env.EMAIL_CLIENT) {
     case SUPPORTED_EMAIL_CLIENTS.sendgrid:
       return postToSengrid(args);
@@ -81,4 +81,6 @@ const send = (args) => {
   }
 }
 
-module.exports = send;
+module.exports = {
+  sendMail,
+};
