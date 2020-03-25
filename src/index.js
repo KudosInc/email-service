@@ -1,3 +1,4 @@
+const nodemailer = require('nodemailer');
 const request = require('./request');
 
 const SENDGRID_API_URL = 'https://api.sendgrid.com/v3/mail/send';
