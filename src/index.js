@@ -11,7 +11,7 @@ const SUPPORTED_EMAIL_CLIENTS = {
 const postToSengrid = ({
   params, subject, to, from, templateId,
 }) => {
-  const data = {
+  const body = {
     personalizations: [{
       to,
       dynamic_template_data: {
@@ -30,7 +30,7 @@ const postToSengrid = ({
       'content-type': 'application/json',
       authorization: `Bearer ${process.env.SENDGRID_API_KEY}`,
     },
-    data,
+    body,
   });
 };
 
