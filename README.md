@@ -29,6 +29,10 @@ EMAIL_CLIENT=sendgrid
 SENDGRID_API_KEY=your_key
 ```
 
+#### Creating templates
+
+To send emails via sendgrid, we need templates created in the sendgrid, and we use the template_id as the sent parameter. The email templates can be cretead in the [sendgrid app](https://mc.sendgrid.com/dynamic-templates)
+
 ### Send Emails
 
 To send emails look at the example below.

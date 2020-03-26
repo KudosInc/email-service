@@ -48,9 +48,10 @@ const postToMailCatcher = ({
       pass: process.env.SMTP_PASSWORD,
     },
   });
+  const nonEmptyParams = Object.keys(params).filter((k) => !k);
   const paramsHtml = `
     This is an email without the actual template, actual email will be sent with these parameters: <br />
-    ${Object.keys(params).map((key) => `<b>${key}</b>: ${params[key]}`).join('<br />')}
+    ${Object.keys(nonEmptyParams).map((key) => `<b>${key}</b>: ${params[key]}`).join('<br />')}
   `;
   transporter.sendMail({
     from: address(from),
