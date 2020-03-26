@@ -63,14 +63,15 @@ const postToMailCatcher = ({
 /**
  * Send Mail
  * @param {Object} args
- * From: {
+ * from: {
  *   email: String, name: String
  * }
- * To: [{
+ * to: [{
  *   email: String, name: String
  * }],
  * params: [key: value]
- * subject: String
+ * subject: String,
+ * templateId: String
  */
 const sendMail = (args) => {
   switch (process.env.EMAIL_CLIENT) {
