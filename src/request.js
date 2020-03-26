@@ -14,6 +14,7 @@ const callback = (res, resolve, reject) => {
       }
     });
   } catch (e) {
+    console.log('EMAIL_ERROR', e.message);
     reject(e);
   }
 };
