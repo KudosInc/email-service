@@ -1,17 +1,21 @@
 const https = require('https');
 
 const callback = (res, resolve, reject) => {
-  const buffers = [];
-  res.setEncoding('utf8');
-  res.on('data', (buffer) => buffers.push(buffer));
-  res.on('error', reject);
-  res.on('end', () => {
-    if (res.statusCode === 200) {
-      resolve(Buffer.concat(buffers));
-    } else {
-      reject(Buffer.concat(buffers));
-    }
-  });
+  try {
+    const buffers = [];
+    res.setEncoding('utf8');
+    res.on('data', (buffer) => buffers.push(buffer));
+    res.on('error', reject);
+    res.on('end', () => {
+      if (res.statusCode === 200) {
+        resolve(Buffer.concat(buffers));
+      } else {
+        reject(Buffer.concat(buffers));
+      }
+    });
+  } catch (e) {
+    reject(e);
+  }
 };
 
 const get = ({ headers, uri }) => new Promise((resolve, reject) => {
