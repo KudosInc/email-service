@@ -2,6 +2,7 @@ const https = require('https');
 
 const callback = (res, resolve, reject) => {
   const buffers = [];
+  res.setEncoding('utf8');
   res.on('data', (buffer) => buffers.push(buffer));
   res.on('error', reject);
   res.on('end', () => {
