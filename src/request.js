@@ -1,22 +1,19 @@
 const https = require('https');
 
+const successCodes = [200, 201, 202];
+
 const callback = (res, resolve, reject) => {
-  try {
-    const buffers = [];
-    res.setEncoding('utf8');
-    res.on('data', (buffer) => buffers.push(buffer));
-    res.on('error', reject);
-    res.on('end', () => {
-      if (res.statusCode === 200) {
-        resolve(Buffer.concat(buffers));
-      } else {
-        reject(Buffer.concat(buffers));
-      }
-    });
-  } catch (e) {
-    console.log('EMAIL_ERROR', e.message);
-    reject(e);
-  }
+  const buffers = [];
+  res.setEncoding('utf8');
+  res.on('data', (buffer) => buffers.push(buffer));
+  res.on('error', reject);
+  res.on('end', () => {
+    if (successCodes.includes(res.statusCode)) {
+      resolve(Buffer.concat(buffers));
+    } else {
+      reject(Buffer.concat(buffers));
+    }
+  });
 };
 
 const get = ({ headers, uri }) => new Promise((resolve, reject) => {
