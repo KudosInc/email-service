@@ -3,11 +3,15 @@ Email service for node clients to send emails via sendgrid and mailcatcher
 
 ## Getting Started
 
+### Installation
+
+Add this line in package.json `"@kudosinc/email-service": "git+https://git@github.com/KudosInc/email-service.git#v1.0.0"` and run `npm install`.
+
 ### Setting up for mailcatcher
 
 Following environment varialbes need to be set to send mail via mailcatcher.
 
-Assuming you already have mailcatcher running locally via docker on the port 1025 and the service name is mailcatcher, set these environment variables
+Assuming you already have mailcatcher running locally via docker on the port `1025` and the service name is mailcatcher, set these environment variables
 
 ```
 EMAIL_CLIENT=mailcatcher
@@ -29,20 +33,19 @@ SENDGRID_API_KEY=your_key
 
 To send emails look at the example below.
 
-Make sure you have the library installed; paste this in package.json `"@kudosinc/email-service": "git+https://git@github.com/KudosInc/email-service.git#send-email"`, run `npm install`
-
 ```javascript
 const emailService = require('@kudosinc/email-service');
 
 await emailService.sendMail({
-  html: 'valid html', //optional
+  html: 'valid html', //optional, will be respected only in mailcatcher
   to: [{ email: 'test@test.com', name: 'test test' }],
   from: { email: 'sender@test.com', name: 'sender sender' },
-  params: { name: 'sender', company: 'Kudos Inc' }, // required for sendgrid and mailcatcher
+  params: { name: 'sender', company: 'Kudos Inc' }, // required for sendgrid, optional for mailcatcher
   templateId: 'template-id', // required for sendgrid to work
+  subject: 'Subject of the email',
 });
 
 ```
 
-**Note**
-If html value is not set when using mailcatcher, it'll concatenate all parameters as a list, and display them as html. The mailcatcher option will not fetch the template html from sendgrid, so the display will not be the same.
+**Note:**
+If the `html` value is not set when using mailcatcher, it'll concatenate all parameters as a list, and display them as html. The mailcatcher option will not fetch the template html from sendgrid, so the display will not be the same.
