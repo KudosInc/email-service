@@ -34,7 +34,7 @@ const postToSengrid = ({
   });
 };
 
-const address = (user) => `"${user.name}" <${user.email}>`;
+const address = ({ name, email }) => `"${name}" <${email}>`;
 
 const postToMailCatcher = ({
   from, to, subject, params, html,
