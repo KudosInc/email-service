@@ -7,16 +7,18 @@ Email service for node clients to send emails via sendgrid and mailcatcher
 
 Add this line in package.json `"@kudosinc/email-service": "git+https://git@github.com/KudosInc/email-service.git#v1.0.0"` and run `npm install`.
 
-### Setting up for mailcatcher
+### Setting up for smtp
 
-Following environment varialbes need to be set to send mail via mailcatcher.
+Following environment varialbes need to be set to send mail via smtp.
 
-Assuming you already have mailcatcher running locally via docker on the port `1025` and the service name is mailcatcher, set these environment variables
+Assuming you already have smtp running locally via docker on the port `1025` and the service name is smtp, set these environment variables
 
 ```
-EMAIL_CLIENT=mailcatcher
+EMAIL_CLIENT=smtp
 SMTP_HOST=mailcatcher
 SMTP_PORT=1025
+SMTP_USER_NAME=username
+SMTP_PASSWORD=password
 ```
 ### Setting up for sendgrid
 
@@ -41,10 +43,10 @@ To send emails look at the example below.
 const emailService = require('@kudosinc/email-service');
 
 await emailService.sendMail({
-  html: 'valid html', //optional, will be respected only in mailcatcher
+  html: 'valid html', //optional, will be respected only in smtp
   to: [{ email: 'test@test.com', name: 'test test' }],
   from: { email: 'sender@test.com', name: 'sender sender' },
-  params: { name: 'sender', company: 'Kudos Inc' }, // required for sendgrid, optional for mailcatcher
+  params: { name: 'sender', company: 'Kudos Inc' }, // required for sendgrid, optional for smtp
   templateId: 'template-id', // required for sendgrid to work
   subject: 'Subject of the email',
 });
@@ -52,4 +54,4 @@ await emailService.sendMail({
 ```
 
 **Note:**
-If the `html` value is not set when using mailcatcher, it'll concatenate all parameters as a list, and display them as html. The mailcatcher option will not fetch the template html from sendgrid, so the display will not be the same.
+If the `html` value is not set when using smtp, it'll concatenate all parameters as a list, and display them as html. The smtp option will not fetch the template html from sendgrid, so the display will not be the same.
