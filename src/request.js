@@ -2,16 +2,24 @@ const https = require('https');
 
 const successCodes = [200, 201, 202];
 
+const compileResponse = (data) => {
+  try {
+    return JSON.parse(data.join(','));
+  } catch (e) {
+    return data.join(',');
+  }
+};
+
 const callback = (res, resolve, reject) => {
-  const buffers = [];
+  const data = [];
   res.setEncoding('utf8');
-  res.on('data', (buffer) => buffers.push(buffer));
+  res.on('data', (response) => data.push(response));
   res.on('error', reject);
   res.on('end', () => {
     if (successCodes.includes(res.statusCode)) {
-      resolve(Buffer.concat(buffers));
+      resolve(compileResponse(data));
     } else {
-      reject(Buffer.concat(buffers));
+      reject(compileResponse(data));
     }
   });
 };

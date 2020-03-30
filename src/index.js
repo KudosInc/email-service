@@ -5,7 +5,7 @@ const SENDGRID_API_URL = 'https://api.sendgrid.com/v3/mail/send';
 
 const SUPPORTED_EMAIL_CLIENTS = {
   sendgrid: 'sendgrid',
-  mailcatcher: 'mailcatcher',
+  smtp: 'smtp',
 };
 
 const postToSengrid = ({
@@ -36,7 +36,18 @@ const postToSengrid = ({
 
 const address = ({ name, email }) => `"${name}" <${email}>`;
 
-const postToMailCatcher = ({
+const paramsHtml = (params) => {
+  if (!params) {
+    return '';
+  }
+  const nonEmptyKeys = Object.keys(params).filter((k) => params[k]);
+  return `
+    This is an email without the actual template, actual email will be sent with these parameters: <br />
+    ${nonEmptyKeys.map((key) => `<b>${key}</b>: ${params[key]}`).join('<br />')}
+  `;
+};
+
+const postToSmtp = ({
   from, to, subject, params, html,
 }) => {
   const transporter = nodemailer.createTransport({
@@ -48,16 +59,11 @@ const postToMailCatcher = ({
       pass: process.env.SMTP_PASSWORD,
     },
   });
-  const nonEmptyParams = Object.keys(params).filter((k) => !k);
-  const paramsHtml = `
-    This is an email without the actual template, actual email will be sent with these parameters: <br />
-    ${Object.keys(nonEmptyParams).map((key) => `<b>${key}</b>: ${params[key]}`).join('<br />')}
-  `;
   transporter.sendMail({
     from: address(from),
     to: to.map(address),
     subject,
-    html: html || paramsHtml,
+    html: html || paramsHtml(params),
   });
 };
 /**
@@ -77,13 +83,11 @@ const sendMail = (args) => {
   switch (process.env.EMAIL_CLIENT) {
     case SUPPORTED_EMAIL_CLIENTS.sendgrid:
       return postToSengrid(args);
-    case SUPPORTED_EMAIL_CLIENTS.mailcatcher:
-      return postToMailCatcher(args);
+    case SUPPORTED_EMAIL_CLIENTS.smtp:
+      return postToSmtp(args);
     default:
       throw new Error(`Unsupported email client: ${process.env.EMAIL_CLIENT}`);
   }
 };
 
-module.exports = {
-  sendMail,
-};
+module.exports = { sendMail };
