@@ -69,7 +69,7 @@ const postToSmtp = ({
     });
   } else {
     const email = new Email({
-      transporter,
+      transport: transporter,
       message: { from: address(from) },
       send: true,
     });
