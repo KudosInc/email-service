@@ -70,18 +70,14 @@ const postToSmtp = ({
   } else {
     const email = new Email({
       transporter,
-      message: {
-        from: address(from),
-      },
+      message: { from: address(from) },
       send: true,
     });
 
     email
       .send({
         template,
-        message: {
-          to: to.map(address),
-        },
+        message: { to: to.map(address) },
         locals: params,
       });
   }
