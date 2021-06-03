@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/KudosInc/email-service#readme",
   "dependencies": {
+    "email-templates": "^8.0.7",
     "nodemailer": "^6.4.16"
   },
   "devDependencies": {

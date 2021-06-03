@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const Email = require('email-templates');
 const request = require('./request');
 
 const SENDGRID_API_URL = 'https://api.sendgrid.com/v3/mail/send';
@@ -48,7 +49,7 @@ const paramsHtml = (params) => {
 };
 
 const postToSmtp = ({
-  from, to, subject, params, html,
+  from, to, subject, params, html, template,
 }) => {
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
@@ -59,12 +60,31 @@ const postToSmtp = ({
       pass: process.env.SMTP_PASSWORD,
     },
   });
-  transporter.sendMail({
-    from: address(from),
-    to: to.map(address),
-    subject,
-    html: html || paramsHtml(params),
-  });
+  if (!template) {
+    transporter.sendMail({
+      from: address(from),
+      to: to.map(address),
+      subject,
+      html: html || paramsHtml(params),
+    });
+  } else {
+    const email = new Email({
+      transporter,
+      message: {
+        from: address(from),
+      },
+      send: true,
+    });
+
+    email
+      .send({
+        template,
+        message: {
+          to: to.map(address),
+        },
+        locals: params,
+      });
+  }
 };
 /**
  * Send Mail
