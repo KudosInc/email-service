@@ -52,6 +52,31 @@ await emailService.sendMail({
 });
 
 ```
+### To send an email with local template
+```javascript
+const sendEmail = async () => {
+  await emailService.sendMail({
+    to: [{ email: 'test@test.com', name: 'test test' }],
+    from: { email: supportEmail, name: 'Kudos Administrator' },
+    params: {
+      user: { name: 'username' },
+      company: 'Kudos Inc',
+      subject: 'A new page has been published',
+      page: {
+        shareMessage: 'Test Message',
+        path: 'www.google.com',
+        title: 'New Page',
+      },
+      organization: {
+        header: 'Kudos Inc',
+        logo: 'link',
+      },
+    },
+    template: '../app/email/templates', 
+  });
+};
+
+```
 
 **Note:**
 If the `html` value is not set when using smtp, it'll concatenate all parameters as a list, and display them as html. The smtp option will not fetch the template html from sendgrid, so the display will not be the same.
