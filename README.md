@@ -59,7 +59,7 @@ const sendEmail = async () => {
     to: [{ email: 'test@test.com', name: 'test test' }],
     from: { email: supportEmail, name: 'Kudos Administrator' },
     params: {
-      user: { name: 'username' },
+      user: { name: 'Colin' },
       company: 'Kudos Inc',
       subject: 'A new page has been published',
       page: {
@@ -72,7 +72,7 @@ const sendEmail = async () => {
         logo: 'link',
       },
     },
-    template: '../app/email/templates', 
+    template: 'relative/path/to/your/pug/template', 
   });
 };
 
