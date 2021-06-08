@@ -59,7 +59,7 @@ const sendEmail = async () => {
     to: [{ email: 'test@test.com', name: 'test test' }],
     from: { email: supportEmail, name: 'Kudos Administrator' },
     params: {
-      user: { name: 'Colin' },
+      user: { name: 'John Doe' },
       company: 'Kudos Inc',
       subject: 'A new page has been published',
       page: {
