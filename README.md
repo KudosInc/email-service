@@ -77,6 +77,10 @@ const sendEmail = async () => {
 };
 
 ```
-
+### Pug template structure 
+In order for the pug template to work, it is required to create follow the following structure:  
+Folder(email)/Foler(template)/html.pug and subject.pug at the same level
+please follow the link for more details 
+https://www.npmjs.com/package/email-templates
 **Note:**
 If the `html` value is not set when using smtp, it'll concatenate all parameters as a list, and display them as html. The smtp option will not fetch the template html from sendgrid, so the display will not be the same.
