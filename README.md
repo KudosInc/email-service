@@ -60,17 +60,6 @@ const sendEmail = async () => {
     from: { email: supportEmail, name: 'Kudos Administrator' },
     params: {
       user: { name: 'John Doe' },
-      company: 'Kudos Inc',
-      subject: 'A new page has been published',
-      page: {
-        shareMessage: 'Test Message',
-        path: 'www.google.com',
-        title: 'New Page',
-      },
-      organization: {
-        header: 'Kudos Inc',
-        logo: 'link',
-      },
     },
     template: 'relative/path/to/your/pug/template', 
   });
