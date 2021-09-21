@@ -49,7 +49,7 @@ const paramsHtml = (params) => {
 };
 
 const postToSmtp = ({
-  from, to, subject, params, html, template,
+  from, to, cc, subject, params, html, template,
 }) => {
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
@@ -64,6 +64,7 @@ const postToSmtp = ({
     transporter.sendMail({
       from: address(from),
       to: to.map(address),
+      cc: cc.map(address),
       subject,
       html: html || paramsHtml(params),
     });
