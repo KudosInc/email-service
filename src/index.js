@@ -64,7 +64,7 @@ const postToSmtp = ({
     transporter.sendMail({
       from: address(from),
       to: to.map(address),
-      cc: ['talal.arshad@kudos.com'],
+      cc,
       subject,
       html: html || paramsHtml(params),
     });
