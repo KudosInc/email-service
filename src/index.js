@@ -24,7 +24,7 @@ const postToSengrid = ({
     reply_to: from,
     template_id: templateId,
     categories: [category],
-    custom_args: { ...uniqueArgs },
+    custom_args: JSON.stringify(uniqueArgs),
   };
   return request.post({
     uri: SENDGRID_API_URL,
