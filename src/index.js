@@ -10,7 +10,7 @@ const SUPPORTED_EMAIL_CLIENTS = {
 };
 
 const postToSengrid = ({
-  params, subject, to, from, templateId,
+  params, subject, to, from, templateId, category, uniqueArgs,
 }) => {
   const body = {
     personalizations: [{
@@ -24,6 +24,8 @@ const postToSengrid = ({
     subject,
     reply_to: from,
     template_id: templateId,
+    categories: [category],
+    custom_args: JSON.stringify(uniqueArgs),
   };
   return request.post({
     uri: SENDGRID_API_URL,
@@ -49,8 +51,13 @@ const paramsHtml = (params) => {
 };
 
 const postToSmtp = ({
-  from, to, cc, subject, params, html, template,
+  from, to, cc, subject, params, html, template, category, uniqueArgs,
 }) => {
+  const smtpApiHeader = {
+    category: [category],
+    unique_args: uniqueArgs,
+  };
+
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
@@ -67,6 +74,9 @@ const postToSmtp = ({
       cc,
       subject,
       html: html || paramsHtml(params),
+      headers: {
+        'X-SMTPAPI': JSON.stringify(smtpApiHeader),
+      },
     });
   } else {
     const email = new Email({
